@@ -1,0 +1,108 @@
+{% extends "base.html" %} {% load static %} {% block content %}
+<div class="heading-page header-text">
+  <section class="page-heading">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="text-content">
+            <h4>Category -|</h4>
+            <h2>Technology</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- Banner Ends Here -->
+
+<section class="blog-posts grid-system">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8">
+        <div class="all-blog-posts">
+          <div class="row">
+            {% for post in queryset %}
+            <div class="col-lg-6">
+              <div class="blog-post">
+                <div class="blog-thumb">
+                  <img height="290" src="{{ post.thumbnail.url }}" alt="" />
+                </div>
+                <div class="down-content">
+                  {% for cat in post.catgory.all %}
+                  <span>{{ cat }}</span>
+                  {% endfor %}
+                  <a href="{{ post.get_absolute_url }}"
+                    ><h4>{{ post.title }}</h4></a
+                  >
+                  <ul class="post-info">
+                    <li>
+                      <a href="{{ post.get_absolute_url }}"
+                        >{{ post.author }}}</a
+                      >
+                    </li>
+                    <li>
+                      <a href="{{ post.get_absolute_url }}"
+                        >{{ post.timestamp }}</a
+                      >
+                    </li>
+                    <li>
+                      <a href="{{ post.get_absolute_url }}"
+                        >{{ post.comment_count }}</a
+                      >
+                    </li>
+                  </ul>
+                  <p>{{post.overview }}</p>
+                  <div class="post-options">
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <ul class="post-tags">
+                          <li><i class="fa fa-tags"></i></li>
+                          <li><a href="#">Best Templates</a>,</li>
+                          <li><a href="#">TemplateMo</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %} {% if queryset.has_other_pages %}
+            <div class="col-lg-12">
+              <ul class="page-numbers">
+                {% if queryset.has_previous %}
+                <li>
+                  <a href="?page={{ queryset.previous_page_number }}"
+                    ><i class="fa fa-angle-double-left"></i
+                  ></a>
+                </li>
+                {% endif %}
+                <li class="active"><a href="#">{{ queryset.number }}</a></li>
+                {% if queryset.has_next %}
+                <li>
+                  <a href="?page={{ queryset.next_page_number }}"
+                    ><i class="fa fa-angle-double-right"></i
+                  ></a>
+                </li>
+                {% endif %}
+              </ul>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">{% include "sidebar.html" %}</div>
+    </div>
+  </div>
+</section>
+{% endblock content %}
+
+<!-- ***** Preloader Start ***** -->
+
+<!-- ***** Preloader End ***** -->
+
+<!-- Header -->
+<!-- Page Content -->
+<!-- Banner Starts Here -->
+
+<!-- Bootstrap core JavaScript -->

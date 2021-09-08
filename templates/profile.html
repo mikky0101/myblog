@@ -1,0 +1,182 @@
+{% extends "base.html" %} {% load static %}
+<!-- ksdKL -->
+{% block title %} BLOG POSTS {% endblock title %}
+<!-- ldskld -->
+{% block content %}
+<div class="heading-page header-text">
+  <section class="page-heading">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="text-content">
+            <h4>Recent Posts</h4>
+            <h2>Posts from {{ author.user.username }}</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- Banner Ends Here -->
+
+<section class="blog-posts grid-system">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8">
+        <div class="all-blog-posts">
+          <div class="row">
+            {% for post in posts %}
+            <div class="col-lg-6">
+              <div class="blog-post">
+                <div class="blog-thumb">
+                  <img height="290" src="{{ post.thumbnail.url }}" alt="" />
+                </div>
+                <div class="down-content">
+                  {% for cat in post.catgory.all %}
+                  <span>{{ cat }}</span>
+                  {% endfor %}
+                  <a href="{{ post.get_absolute_url }}"
+                    ><h4>{{ post.title }}</h4></a
+                  >
+                  <ul class="post-info">
+                    <li>
+                      <a href="{{ post.get_absolute_url }}"
+                        >{{ post.author }}}</a
+                      >
+                    </li>
+                    <li>
+                      <a href="{{ post.get_absolute_url }}"
+                        >{{ post.timestamp }}</a
+                      >
+                    </li>
+                    <li>
+                      <a href="{{ post.get_absolute_url }}"
+                        >{{ post.comment_count }}</a
+                      >
+                    </li>
+                  </ul>
+                  <p>{{post.overview }}</p>
+                  <div class="post-options">
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <ul class="post-tags">
+                          <li><i class="fa fa-tags"></i></li>
+                          <li><a href="#">Best Templates</a>,</li>
+                          <li><a href="#">TemplateMo</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %} {% if posts.has_other_pages %}
+            <div class="col-lg-12">
+              <ul class="page-numbers">
+                {% if posts.has_previous %}
+                <li>
+                  <a href="?page={{ posts.previous_page_number }}"
+                    ><i class="fa fa-angle-double-left"></i
+                  ></a>
+                </li>
+                {% endif %}
+                <li class="active"><a href="#">{{ posts.number }}</a></li>
+                {% if posts.has_next %}
+                <li>
+                  <a href="?page={{ posts.next_page_number }}"
+                    ><i class="fa fa-angle-double-right"></i
+                  ></a>
+                </li>
+                {% endif %}
+              </ul>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="sidebar">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="sidebar-item search">
+                <form id="search_form" name="q" action="/search">
+                  <input
+                    type="text"
+                    id="q"
+                    name="q"
+                    class="searchText"
+                    placeholder="type to search..."
+                    autocomplete="on"
+                  />
+                </form>
+              </div>
+            </div>
+            <div class="col-lg-12">
+              <div class="sidebar-item recent-posts">
+                <div class="sidebar-heading">
+                  <h2>Recent Posts</h2>
+                </div>
+                <div class="content">
+                  <ul>
+                    {% for post in latest %}
+                    <li>
+                      <a href="{{ post.get_absolute_url }}">
+                        <h5>{{post.title }}</h5>
+                        <span>{{post.timestamp}}</span>
+                      </a>
+                    </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-12">
+              <div class="sidebar-item categories">
+                <div class="sidebar-heading">
+                  <h2>Categories</h2>
+                </div>
+                <div class="content">
+                  <ul>
+                    {% for cat in category_count %}
+                    <li><a href="#">- {{ cat.Category__name }}</a></li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-12">
+              <div class="sidebar-item tags">
+                <div class="sidebar-heading">
+                  <h2>Tag Clouds</h2>
+                </div>
+                <div class="content">
+                  <ul>
+                    <li><a href="#">Lifestyle</a></li>
+                    <li><a href="#">Creative</a></li>
+                    <li><a href="#">HTML5</a></li>
+                    <li><a href="#">Inspiration</a></li>
+                    <li><a href="#">Motivation</a></li>
+                    <li><a href="#">PSD</a></li>
+                    <li><a href="#">Responsive</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}
+
+<!-- ***** Preloader Start ***** -->
+
+<!-- ***** Preloader End ***** -->
+
+<!-- Header -->
+<!-- Page Content -->
+<!-- Banner Starts Here -->
+
+<!-- Bootstrap core JavaScript -->

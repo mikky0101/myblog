@@ -1,0 +1,232 @@
+{% extends "base.html" %} {% load static %}
+<!-- ksdKL -->
+{% block title %} POST DETAIL {% endblock title %}
+<!-- ldskld -->
+{% block content %}
+
+<style>
+  .down-content img {
+    width: 100%;
+    height: 40vh;
+  }
+  .blog-posts .down-content p {
+    padding: 10px 0px;
+    margin: 10px 0px;
+    border-top: none;
+    border-bottom: none;
+  }
+  .blog-posts .down-content span {
+    color: #7a7a7a;
+  }
+  /* .conta > div {
+    margin-top: 10;
+  } */
+  code {
+    background-size: contain;
+    border: 10px;
+  }
+</style>
+
+<!-- Page Content -->
+<!-- Banner Starts Here -->
+<div class="heading-page header-text">
+  <section class="page-heading">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="text-content">
+            <h4>Post Details</h4>
+            <h2>{{ post.title }}</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- Banner Ends Here -->
+
+<section class="blog-posts grid-system">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8">
+        <div class="all-blog-posts">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="blog-post">
+                <div class="blog-thumb">
+                  <img height="363.6" src="{{ post.thumbnail.url }}" alt="" />
+                </div>
+                <div class="down-content">
+                  {% for cat in post.Category.all %}
+                  <span>{{ cat }} </span>
+                  {% endfor %}
+                  <a href="{{ post.get_absolute_url }}"
+                    ><h4>{{ post.title }}</h4></a
+                  >
+                  <ul class="post-info">
+                    <li><a href="#">{{ post.author }}</a></li>
+                    <li><a href="#">{{post.timestamp}}</a></li>
+                    <li><a href="#">{{ post.comment_count }} Comments</a></li>
+                  </ul>
+                  <div style="margin-top: 20px" class="conta">
+                    {{ post.content | safe }}
+                  </div>
+                  <div class="post-options">
+                    <div class="row">
+                      <div class="col-6">
+                        <ul class="post-tags">
+                          {% if post.author == request.user.author %}
+                          <li><i class="fa fa-tags"></i></li>
+                          <li>
+                            <a href="{% url 'blog:update' id=post.id %}"
+                              >Update Post</a
+                            >
+                          </li>
+                          {% else %}
+                          <li><i class="fa fa-tags"></i></li>
+                          <li><a href="#">Best Templates</a>,</li>
+                          <li><a href="#">TemplateMo</a></li>
+                          {% endif %}
+                        </ul>
+                      </div>
+                      <div class="col-6">
+                        <ul class="post-share">
+                          <li><i class="fa fa-share-alt"></i></li>
+                          <li><a href="#">Facebook</a>,</li>
+                          <li><a href="#"> Twitter</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-12">
+              <div class="sidebar-item comments">
+                <div class="sidebar-heading">
+                  <h2>{{ post.comment_count }} comments</h2>
+                </div>
+                <div class="content">
+                  <ul>
+                    {% for comment in comment %}
+                    <!-- hkfd -->
+
+                    <li>
+                      <div class="author-thumb">
+                        {% if comment.user.author %}
+                        <img
+                          src="{{ comment.user.author.profile_picture.url }}"
+                          alt=""
+                        />
+                        {% else %}
+                        <img src="{% static 'default.png' %}" alt="" />
+                        {% endif %}
+                      </div>
+                      <div class="right-content">
+                        <h4>
+                          {{comment.user.username}}<span
+                            >{{ comment.timestamp|timesince }} ago</span
+                          >
+                        </h4>
+                        <p>{{ comment.content }}</p>
+                      </div>
+                    </li>
+
+                    <!-- jldfklfd   -->
+
+                    <!-- sdjkf -->
+                    {% if comment.reply %}
+                    <!-- zjkf -->
+                    {% for reply in comment.reply %}
+                    <li class="replied">
+                      <div class="author-thumb">
+                        {% if reply.user.author %}
+                        <img
+                          src="{{ comment.user.author.profile_picture.url }}"
+                          alt=""
+                        />
+                        {% else %}
+                        <img src="{% static 'default.png' %}" alt="" />
+                        {% endif %}
+                      </div>
+                      <div class="right-content">
+                        <h4>
+                          {{comment.user.username}}<span
+                            >{{ comment.timestamp|timesince }} ago</span
+                          >
+                        </h4>
+
+                        <p>{{ reply.content }}</p>
+                      </div>
+                    </li>
+                    {% endfor %}
+                    <!-- zjkf -->
+                    {% endif %}
+                    <!-- zjkf -->
+                    {% endfor %} {% if comment.has_other_pages %}
+                    <div class="col-lg-12">
+                      <ul class="page-numbers">
+                        {% if comment.has_previous %}
+                        <li>
+                          <a href="?page={{ comment.previous_page_number }}"
+                            ><i class="fa fa-angle-double-left"></i
+                          ></a>
+                        </li>
+                        {% endif %}
+                        <li class="active">
+                          <a href="#">{{ comment.number }}</a>
+                        </li>
+                        {% if comment.has_next %}
+                        <li>
+                          <a href="?page={{ comment.next_page_number }}"
+                            ><i class="fa fa-angle-double-right"></i
+                          ></a>
+                        </li>
+                        {% endif %}
+                      </ul>
+                    </div>
+                    {% endif %}
+                  </ul>
+                </div>
+              </div>
+            </div>
+            {% if request.user.is_authenticated %}
+            <div class="col-lg-12">
+              <div class="sidebar-item submit-comment">
+                <div class="sidebar-heading">
+                  <h2>Your comment</h2>
+                </div>
+                <div class="content">
+                  <form id="comment" action="." method="POST">
+                    {% csrf_token %}
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <fieldset>{{ form }}</fieldset>
+                      </div>
+                      <div class="col-lg-12">
+                        <fieldset>
+                          <button
+                            type="submit"
+                            id="form-submit"
+                            class="main-button"
+                          >
+                            Submit
+                          </button>
+                        </fieldset>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">{% include "sidebar.html" %}</div>
+    </div>
+  </div>
+</section>
+
+{% endblock content %}
